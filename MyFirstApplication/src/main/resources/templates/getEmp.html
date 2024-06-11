@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<h1>Employee List</h1>
+<table id="employeeTable">
+    <thead>
+    <tr>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script>
+    async function fetchEmployees() {
+        const response = await fetch('/getEmployees');
+        const employees = await response.json();
+
+        const tableBody = document.querySelector('#employeeTable tbody');
+        tableBody.innerHTML = '';
+
+        employees.forEach(employee => {
+            const row = document.createElement('tr');
+            const nameCell = document.createElement('td');
+            const link = document.createElement('a');
+            link.href = `employeeDetails.html?id=${employee.id}`;
+            link.textContent = employee.eName;
+            nameCell.appendChild(link);
+            row.appendChild(nameCell);
+            tableBody.appendChild(row);
+        });
+    }
+
+    fetchEmployees();
+</script>
+</body>
+</html>
+<!--It fetches the list of employees from the server using an asynchronous JavaScript function (fetchEmployees).
+The hyperlink is dynamically generated to include the employee's ID as a query parameter.
+When clicked, this hyperlink will navigate to an employee details page with the employee's ID passed as a parameter.-->

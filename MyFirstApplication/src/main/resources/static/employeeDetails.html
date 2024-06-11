@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+</head>
+<body>
+<h1>Employee Details</h1>
+<div id="employeeDetails">
+    <p>Name: <span id="eName"></span></p>
+    <p>Address: <span id="eAddress"></span></p>
+    <p>Organization: <span id="eOrganisation"></span></p>
+    <p>DOB: <span id="dob"></span></p>
+    <p>CollegeName: <span id="collegeName"></span></p>
+</div>
+
+<script>
+    async function fetchEmployeeDetails() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (id) {
+            const response = await fetch(`/getEmployee/${id}`);
+            if (response.ok) {
+                const employee = await response.json();
+                document.getElementById('eName').textContent = employee.eName;
+                document.getElementById('eAddress').textContent = employee.eAddress;
+                document.getElementById('eOrganisation').textContent = employee.eOrganisation;
+                document.getElementById('dob').textContent = employee.dob;
+                document.getElementById('collegeName').textContent = employee.collegeName;
+            } else {
+                console.error("Failed to fetch employee details");
+            }
+        } else {
+            console.error("No employee id specified");
+        }
+    }
+
+    fetchEmployeeDetails();
+</script>
+</body>
+</html>
+
+<!--It extracts the employee ID from the URL query parameters and uses it to fetch the employee details from the server asynchronously.
+If an error occurs during the fetch operation or if no employee ID is specified in the URL, error messages are logged to the console.-->
